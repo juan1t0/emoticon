@@ -144,6 +144,15 @@ def cat_to_one_hot(y_cat):
     :param y_cat: Categorical label.
     :return: One hot encoded categorical label. 
     '''
+    cat = ['Affection', 'Anger', 'Annoyance', 'Anticipation', 'Aversion', 'Confidence', 'Disapproval', 'Disconnection',
+       'Disquietment', 'Doubt/Confusion', 'Embarrassment', 'Engagement', 'Esteem', 'Excitement', 'Fatigue', 'Fear',
+       'Happiness', 'Pain', 'Peace', 'Pleasure', 'Sadness', 'Sensitivity', 'Suffering', 'Surprise', 'Sympathy', 'Yearning']
+    cat2ind = {}
+#     ind2cat = {}
+    for idx, emotion in enumerate(cat):
+        cat2ind[emotion] = idx
+#         ind2cat[idx] = emotion
+        
     one_hot_cat = np.zeros(26)
     for em in y_cat:
         one_hot_cat[cat2ind[em]] = 1
@@ -247,41 +256,41 @@ def prepare_data(data_mat, data_path_src, save_dir, dataset_type='train', genera
   print ('completed generating %s data files' %(dataset_type))
  
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--data_dir', type=str, required=True, help='Path to Emotic data and annotations')
-    parser.add_argument('--save_dir_name', type=str, default='emotic_pre', help='Directory name in which preprocessed data will be stored')
-    parser.add_argument('--label', type=str,  default='all', choices=['train', 'val', 'test', 'all'])
-    parser.add_argument('--generate_npy', action='store_true', help='Generate npy files')
-    parser.add_argument('--debug_mode', action='store_true', help='Debug mode. Will only save a small subset of the data')
-    # Generate args
-    args = parser.parse_args()
-    return args
+# def parse_args():
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('--data_dir', type=str, required=True, help='Path to Emotic data and annotations')
+#     parser.add_argument('--save_dir_name', type=str, default='emotic_pre', help='Directory name in which preprocessed data will be stored')
+#     parser.add_argument('--label', type=str,  default='all', choices=['train', 'val', 'test', 'all'])
+#     parser.add_argument('--generate_npy', action='store_true', help='Generate npy files')
+#     parser.add_argument('--debug_mode', action='store_true', help='Debug mode. Will only save a small subset of the data')
+#     # Generate args
+#     args = parser.parse_args()
+#     return args
   
-if __name__ == '__main__':
-    args = parse_args()
-    ann_path_src = os.path.join(args.data_dir, 'Annotations','Annotations.mat')
-    data_path_src = os.path.join(args.data_dir, 'emotic')
-    save_path = os.path.join(args.data_dir, args.save_dir_name)
-    if not os.path.exists(save_path):
-      os.makedirs(save_path)
+# if __name__ == '__main__':
+#     args = parse_args()
+#     ann_path_src = os.path.join(args.data_dir, 'Annotations','Annotations.mat')
+#     data_path_src = os.path.join(args.data_dir, 'emotic')
+#     save_path = os.path.join(args.data_dir, args.save_dir_name)
+#     if not os.path.exists(save_path):
+#       os.makedirs(save_path)
     
-    cat = ['Affection', 'Anger', 'Annoyance', 'Anticipation', 'Aversion', 'Confidence', 'Disapproval', 'Disconnection',
-       'Disquietment', 'Doubt/Confusion', 'Embarrassment', 'Engagement', 'Esteem', 'Excitement', 'Fatigue', 'Fear',
-       'Happiness', 'Pain', 'Peace', 'Pleasure', 'Sadness', 'Sensitivity', 'Suffering', 'Surprise', 'Sympathy', 'Yearning']
-    cat2ind = {}
-    ind2cat = {}
-    for idx, emotion in enumerate(cat):
-        cat2ind[emotion] = idx
-        ind2cat[idx] = emotion
+#     cat = ['Affection', 'Anger', 'Annoyance', 'Anticipation', 'Aversion', 'Confidence', 'Disapproval', 'Disconnection',
+#        'Disquietment', 'Doubt/Confusion', 'Embarrassment', 'Engagement', 'Esteem', 'Excitement', 'Fatigue', 'Fear',
+#        'Happiness', 'Pain', 'Peace', 'Pleasure', 'Sadness', 'Sensitivity', 'Suffering', 'Surprise', 'Sympathy', 'Yearning']
+#     cat2ind = {}
+#     ind2cat = {}
+#     for idx, emotion in enumerate(cat):
+#         cat2ind[emotion] = idx
+#         ind2cat[idx] = emotion
     
-    print ('loading Annotations')
-    mat = loadmat(ann_path_src)
-    if args.label.lower() == 'all':
-      labels = ['train', 'val', 'test']
-    else:
-      labels = [args.label.lower()]
-    for label in labels:
-      data_mat = mat[label]
-      print ('starting label ', label)
-      prepare_data(data_mat, data_path_src, save_path, dataset_type=label, generate_npy=args.generate_npy, debug_mode=args.debug_mode)
+#     print ('loading Annotations')
+#     mat = loadmat(ann_path_src)
+#     if args.label.lower() == 'all':
+#       labels = ['train', 'val', 'test']
+#     else:
+#       labels = [args.label.lower()]
+#     for label in labels:
+#       data_mat = mat[label]
+#       print ('starting label ', label)
+#       prepare_data(data_mat, data_path_src, save_path, dataset_type=label, generate_npy=args.generate_npy, debug_mode=args.debug_mode)
