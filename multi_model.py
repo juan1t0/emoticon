@@ -15,7 +15,7 @@ class MultiModalModel (nn.Module):
 
         G = Graph(skeleton_model['Glabel'])
         self.SkeletonModel = STGCN(channel=skeleton_model['channel'],
-            num_classes=skeleton_model['num_classes'],
+            num_class=skeleton_model['num_classes'],
             window_size=skeleton_model['window_size'],
             num_point=skeleton_model['num_point'],
             use_data_bn=skeleton_model['use_data_bn'],

@@ -187,7 +187,7 @@ class TCN_GCN_unit_multiscale(nn.Module):
         return torch.cat((self.unit_1(x), self.unit_2(x)), dim=1)
 
 class STGCN(nn.Module):
-    def __init__(self, channel, num_classes, window_size, num_point, 
+    def __init__(self, channel, num_class, window_size, num_point, 
         num_person=1, use_data_bn=False,
         backbone_config=None, graph=None,
         graph_args=dict(), mask_learning=False,
@@ -201,7 +201,7 @@ class STGCN(nn.Module):
             self.graph = graph
             self.A = torch.from_numpy(self.graph.A).float().cuda(0)
 
-        self.num_class = num_classes
+        self.num_class = num_class
         self.use_data_bn = use_data_bn
         self.multiscale = multiscale
 
