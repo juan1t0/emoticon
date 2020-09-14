@@ -1,35 +1,38 @@
 import torch
 import torch.nn as nn
 
-from st_gcn import Model as STGCN
-from graph import Graph
-from facenet import FaceNet
+from .st_gcn import Model as STGCN
+from .graph import Graph
+from .facenet import FaceNet
 
 class MultiModalModel (nn.Module):
     def __init__(self, numclasses, modals=[]):
         super(MultiModalModel, self).__init__()
 
-        self.Modals = createModels(modals)
-
-    def createModels(self, modals):
         models = []
         for mdl in modals:
             if mdl['model'] == 'FaceNet':
                 fn = FaceNet(inchanels=mdl['inchanels'], outchanels=mdl['outchanels'])
                 models.append(fn)
             elif mdl['model'] == 'st-gcn':
-                G = Graph
+                G = Graph(mdl['Glabel'])
                 gcn = STGCN(channel=mdl['channel'], 
                     num_classes=mdl['num_classes'],
                     window_size=mdl['window_size'], 
                     num_point=mdl['num_point'],
-                    graph=G
+                    graph=G,
+                    dropout=mdl['dropout'],
+                    mask_learning=mdl['mask_learning'],
+                    use_data_bn=mdl['use_data_bn']
                     )
                 models.append(gcn)
             else:
                 raise ValueError()
+        self.Modals = models
+#        self.Modals = self.createModels(modals)
 
-        return models
+#    def createModels(self, modals):
+        
 
     def forward(self, x1, x2):
         # outs = []
