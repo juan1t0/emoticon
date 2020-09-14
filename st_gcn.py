@@ -186,7 +186,7 @@ class TCN_GCN_unit_multiscale(nn.Module):
     def forward(self, x):
         return torch.cat((self.unit_1(x), self.unit_2(x)), dim=1)
 
-class Model(nn.Module):
+class STGCN(nn.Module):
     def _init__(self, channel, num_classes, window_size, num_point, 
         num_person=1, use_data_bn=False,
         backbone_config=None, graph=None,
@@ -194,7 +194,7 @@ class Model(nn.Module):
         use_local_bn=False, multiscale=False,
         temporal_kernel_size=9, dropout=0.5):
         
-        super(Model, self).__init__()
+        super(STGCN, self).__init__()
         if graph is None:
             raise ValueError()
         else:
